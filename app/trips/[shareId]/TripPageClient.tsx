@@ -230,6 +230,12 @@ export default function TripPageClient() {
     }
   };
 
+  /** datetime-local の値をタイムゾーン付きISOに変換 */
+  const toISOWithTZ = (datetimeLocal: string): string | null => {
+    if (!datetimeLocal) return null;
+    return new Date(datetimeLocal).toISOString();
+  };
+
   /* ── 予約新規作成 ── */
   const handleCreateReservation = async (
     formData: ReservationFormData,
@@ -244,7 +250,7 @@ export default function TripPageClient() {
         title: formData.title,
         booking_site: formData.booking_site || null,
         booking_number: formData.booking_number || null,
-        scheduled_at: formData.scheduled_at || null,
+        scheduled_at: toISOWithTZ(formData.scheduled_at),
         memo: formData.memo || null,
       })
       .select()
@@ -277,7 +283,7 @@ export default function TripPageClient() {
         title: formData.title,
         booking_site: formData.booking_site || null,
         booking_number: formData.booking_number || null,
-        scheduled_at: formData.scheduled_at || null,
+        scheduled_at: toISOWithTZ(formData.scheduled_at),
         memo: formData.memo || null,
         updated_at: new Date().toISOString(),
       })
